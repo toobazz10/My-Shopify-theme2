@@ -1,21 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ shop.locale.iso_code }}">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>{{ page_title }}</title>
   {{ content_for_header }}
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;}
-    body{background:#fff;color:#111;line-height:1.5;}
-  </style>
 </head>
 <body>
+
+  {% comment %} ✅ HEADER — MUST MATCH FILE NAME EXACTLY {% endcomment %}
   {% section 'custom-header' %}
-  <main>
+
+  <main role="main">
     {{ content_for_layout }}
   </main>
+
+  {% comment %} ✅ FOOTER — MUST MATCH FILE NAME EXACTLY {% endcomment %}
   {% section 'custom-footer' %}
+
   {{ content_for_footer }}
 </body>
 </html>
