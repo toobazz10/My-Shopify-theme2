@@ -1,0 +1,6 @@
+# Shopify & development ignores
+node_modules/
+config.yml
+*.env
+.DS_Store
+Thumbs.db
