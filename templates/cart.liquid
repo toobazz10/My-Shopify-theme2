@@ -1,0 +1,38 @@
+{% comment %}Cart Page Template{% endcomment %}
+{% layout 'theme' %}
+<div class="cart-page">
+  <div class="cart-inner">
+    <h1>Your Cart</h1>
+    {% if cart.items.size > 0 %}
+      <div class="cart-items">
+        {% for item in cart.items %}
+          <div class="cart-item">
+            <div class="item-img">{{ item.image | image_url: '100x' | image_tag }}</div>
+            <div class="item-info">
+              <h3>{{ item.product.title }}</h3>
+              <p>{{ item.variant.title }}</p>
+              <p>Qty: {{ item.quantity }}</p>
+              <p class="price">{{ item.final_line_price | money }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="cart-total">
+        <strong>Total: {{ cart.total_price | money }}</strong>
+        <a href="/checkout" class="checkout-btn">Go to Checkout</a>
+      </div>
+    {% else %}
+      <p class="empty-cart">Your cart is empty. <a href="/collections/all">Start Shopping</a></p>
+    {% endif %}
+  </div>
+</div>
+<style>
+.cart-page{max-width:1000px;margin:40px auto;padding:0 15px;}
+.cart-inner h1{font-size:28px;margin-bottom:25px;}
+.cart-item{display:flex;gap:15px;padding:15px 0;border-bottom:1px solid #eee;align-items:center;}
+.item-img img{width:80px;height:80px;object-fit:cover;border-radius:4px;}
+.price{font-weight:700;color:#d32f2f;}
+.cart-total{margin-top:20px;text-align:right;}
+.checkout-btn{background:#2563eb;color:#fff;padding:12px 25px;border-radius:6px;text-decoration:none;display:inline-block;margin-top:10px;}
+.empty-cart{text-align:center;padding:40px 0;color:#666;}
+</style>
