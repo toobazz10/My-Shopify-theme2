@@ -1,0 +1,13 @@
+{% comment %}Standard Page Template{% endcomment %}
+{% layout 'theme' %}
+<div class="standard-page">
+  <div class="page-inner">
+    <h1>{{ page.title }}</h1>
+    <div class="page-content">{{ page.content }}</div>
+  </div>
+</div>
+<style>
+.standard-page{max-width:800px;margin:40px auto;padding:0 15px;}
+.page-inner h1{font-size:28px;margin-bottom:20px;color:#111;}
+.page-content{font-size:16px;line-height:1.7;color:#333;}
+</style>
