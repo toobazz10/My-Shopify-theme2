@@ -1,0 +1,110 @@
+{% comment %}
+=== CUSTOM HEADER — FULLY EDITABLE ===
+✅ Exact correct name: custom-header.liquid
+{% endcomment %}
+
+<header class="site-header" style="background: {{ section.settings.header_bg }}; color: {{ section.settings.text_color }};">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      {% if section.settings.logo %}
+        {{ section.settings.logo | image_url: '200x' | image_tag: 'alt': section.settings.store_name }}
+      {% else %}
+        <span class="logo-text">{{ section.settings.store_name }}</span>
+      {% endif %}
+    </a>
+
+    <nav class="main-nav">
+      {% for link in section.settings.menu.links %}
+        <a href="{{ link.url }}" class="nav-link">{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+
+    <div class="header-actions">
+      <a href="/search" class="icon-link">🔍</a>
+      <a href="/account" class="icon-link">👤</a>
+      <a href="/cart" class="icon-link cart-icon">
+        🛒
+        {% if cart.item_count > 0 %}<span class="cart-count">{{ cart.item_count }}</span>{% endif %}
+      </a>
+      <button class="menu-toggle" id="menuToggle">☰</button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    {% for link in section.settings.menu.links %}
+      <a href="{{ link.url }}" class="mobile-link">{{ link.title }}</a>
+    {% endfor %}
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Custom Header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "🎨 Branding"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "text",
+      "id": "store_name",
+      "label": "Store Name",
+      "default": "YOUR STORE"
+    },
+    {
+      "type": "color",
+      "id": "header_bg",
+      "label": "Background Colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Colour",
+      "default": "#111111"
+    },
+    {
+      "type": "menu",
+      "id": "menu",
+      "label": "Main Menu",
+      "default": "main-menu"
+    }
+  ],
+  "presets": [{"name": "Custom Header"}]
+}
+{% endschema %}
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;}
+.site-header{position:sticky;top:0;z-index:999;border-bottom:1px solid #eee;}
+.header-inner{max-width:1200px;margin:0 auto;padding:15px;display:flex;align-items:center;justify-content:space-between;}
+.logo{text-decoration:none;font-size:22px;font-weight:700;}
+.logo-text{color:inherit;}
+.logo img{height:40px;width:auto;}
+.main-nav{display:flex;gap:25px;}
+.nav-link{text-decoration:none;font-size:15px;font-weight:500;}
+.header-actions{display:flex;align-items:center;gap:18px;}
+.icon-link{font-size:20px;text-decoration:none;position:relative;}
+.cart-count{position:absolute;top:-8px;right:-8px;background:#d32f2f;color:#fff;font-size:11px;min-width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.menu-toggle{display:none;background:none;border:none;font-size:24px;cursor:pointer;}
+.mobile-menu{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border-top:1px solid #eee;padding:15px;flex-direction:column;gap:12px;}
+.mobile-link{font-size:16px;text-decoration:none;padding:8px 0;}
+
+@media (max-width:768px){
+  .main-nav{display:none;}
+  .menu-toggle{display:block;}
+  .mobile-menu.active{display:flex;}
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  const t=document.getElementById('menuToggle'),m=document.getElementById('mobileMenu');
+  t?.addEventListener('click',()=>m.classList.toggle('active'));
+});
+</script>
