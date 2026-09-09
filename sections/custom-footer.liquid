@@ -1,110 +1,133 @@
 {% comment %}
-✅ EXACT NAME: custom-header
+✅ EXACT NAME: custom-footer
 ✅ FULLY EDITABLE IN CUSTOMIZE
 {% endcomment %}
 
-<header class="site-header" style="background: {{ section.settings.header_bg }}; color: {{ section.settings.text_color }};">
-  <div class="header-inner">
-    <a href="/" class="logo">
-      {% if section.settings.logo %}
-        {{ section.settings.logo | image_url: '200x' | image_tag: 'alt': section.settings.store_name }}
-      {% else %}
-        <span class="logo-text">{{ section.settings.store_name }}</span>
-      {% endif %}
-    </a>
-
-    <nav class="main-nav">
-      {% for link in section.settings.menu.links %}
-        <a href="{{ link.url }}" class="nav-link">{{ link.title }}</a>
-      {% endfor %}
-    </nav>
-
-    <div class="header-actions">
-      <a href="/search" class="icon-link">🔍</a>
-      <a href="/account" class="icon-link">👤</a>
-      <a href="/cart" class="icon-link cart-icon">
-        🛒
-        {% if cart.item_count > 0 %}<span class="cart-count">{{ cart.item_count }}</span>{% endif %}
-      </a>
-      <button class="menu-toggle" id="menuToggle">☰</button>
+<footer class="site-footer" style="background: {{ section.settings.footer_bg }}; color: {{ section.settings.text_color }};">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h3>{{ section.settings.col1_title }}</h3>
+      <p>{{ section.settings.col1_text }}</p>
+    </div>
+    <div class="footer-col">
+      <h3>{{ section.settings.col2_title }}</h3>
+      <div class="footer-links">
+        {% for link in section.settings.links1.links %}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="footer-col">
+      <h3>{{ section.settings.col3_title }}</h3>
+      <div class="footer-links">
+        {% for link in section.settings.links2.links %}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="footer-col">
+      <h3>{{ section.settings.col4_title }}</h3>
+      <div class="social-links">
+        {% if section.settings.facebook %}<a href="{{ section.settings.facebook }}" target="_blank">📘</a>{% endif %}
+        {% if section.settings.instagram %}<a href="{{ section.settings.instagram }}" target="_blank">📸</a>{% endif %}
+      </div>
     </div>
   </div>
-
-  <div class="mobile-menu" id="mobileMenu">
-    {% for link in section.settings.menu.links %}
-      <a href="{{ link.url }}" class="mobile-link">{{ link.title }}</a>
-    {% endfor %}
+  <div class="footer-bottom">
+    <p>{{ section.settings.copyright }}</p>
   </div>
-</header>
+</footer>
 
 {% schema %}
 {
-  "name": "Custom Header",
+  "name": "Custom Footer",
   "settings": [
     {
-      "type": "header",
-      "content": "🎨 Branding"
-    },
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Logo"
-    },
-    {
-      "type": "text",
-      "id": "store_name",
-      "label": "Store Name",
-      "default": "YOUR STORE"
-    },
-    {
       "type": "color",
-      "id": "header_bg",
+      "id": "footer_bg",
       "label": "Background Colour",
-      "default": "#ffffff"
+      "default": "#111111"
     },
     {
       "type": "color",
       "id": "text_color",
       "label": "Text Colour",
-      "default": "#111111"
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "col1_title",
+      "label": "Column 1 Heading",
+      "default": "About Us"
+    },
+    {
+      "type": "textarea",
+      "id": "col1_text",
+      "label": "Description",
+      "default": "Everything you need in one place."
+    },
+    {
+      "type": "text",
+      "id": "col2_title",
+      "label": "Column 2 Heading",
+      "default": "Shop"
     },
     {
       "type": "menu",
-      "id": "menu",
-      "label": "Main Menu",
-      "default": "main-menu"
+      "id": "links1",
+      "label": "Shop Links",
+      "default": "footer-shop"
+    },
+    {
+      "type": "text",
+      "id": "col3_title",
+      "label": "Column 3 Heading",
+      "default": "Support"
+    },
+    {
+      "type": "menu",
+      "id": "links2",
+      "label": "Support Links",
+      "default": "footer-support"
+    },
+    {
+      "type": "text",
+      "id": "col4_title",
+      "label": "Column 4 Heading",
+      "default": "Follow Us"
+    },
+    {
+      "type": "url",
+      "id": "facebook",
+      "label": "Facebook Link"
+    },
+    {
+      "type": "url",
+      "id": "instagram",
+      "label": "Instagram Link"
+    },
+    {
+      "type": "text",
+      "id": "copyright",
+      "label": "Copyright Text",
+      "default": "© 2026 YOUR STORE. All rights reserved."
     }
   ],
-  "presets": [{"name": "Custom Header"}]
+  "presets": [{"name": "Custom Footer"}]
 }
 {% endschema %}
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;}
-.site-header{position:sticky;top:0;z-index:999;border-bottom:1px solid #eee;}
-.header-inner{max-width:1200px;margin:0 auto;padding:15px;display:flex;align-items:center;justify-content:space-between;}
-.logo{text-decoration:none;font-size:22px;font-weight:700;}
-.logo-text{color:inherit;}
-.logo img{height:40px;width:auto;}
-.main-nav{display:flex;gap:25px;}
-.nav-link{text-decoration:none;font-size:15px;font-weight:500;}
-.header-actions{display:flex;align-items:center;gap:18px;}
-.icon-link{font-size:20px;text-decoration:none;position:relative;}
-.cart-count{position:absolute;top:-8px;right:-8px;background:#d32f2f;color:#fff;font-size:11px;min-width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
-.menu-toggle{display:none;background:none;border:none;font-size:24px;cursor:pointer;}
-.mobile-menu{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border-top:1px solid #eee;padding:15px;flex-direction:column;gap:12px;}
-.mobile-link{font-size:16px;text-decoration:none;padding:8px 0;}
+.site-footer{padding:50px 15px 20px;}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:30px;margin-bottom:30px;}
+.footer-col h3{font-size:16px;font-weight:600;margin-bottom:15px;}
+.footer-col p{font-size:14px;line-height:1.6;opacity:.8;}
+.footer-links{display:flex;flex-direction:column;gap:8px;}
+.footer-links a{font-size:14px;text-decoration:none;opacity:.8;}
+.social-links{display:flex;gap:12px;font-size:22px;}
+.footer-bottom{max-width:1200px;margin:0 auto;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);text-align:center;}
 
-@media (max-width:768px){
-  .main-nav{display:none;}
-  .menu-toggle{display:block;}
-  .mobile-menu.active{display:flex;}
-}
+@media (max-width:768px){.footer-inner{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:480px){.footer-inner{grid-template-columns:1fr;}}
 </style>
-
-<script>
-document.addEventListener('DOMContentLoaded',function(){
-  const t=document.getElementById('menuToggle'),m=document.getElementById('mobileMenu');
-  t?.addEventListener('click',()=>m.classList.toggle('active'));
-});
-</script>
