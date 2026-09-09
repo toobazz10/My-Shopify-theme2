@@ -1,57 +1,121 @@
 {% comment %}
-=== CUSTOM HEADER ===
-Sticky · Mobile menu · Cart counter
+=== CUSTOM HEADER — FULLY EDITABLE ===
+✅ Logo · Menu · Search · Cart · Colours · All in Customize
 {% endcomment %}
 
-<header class="custom-header">
-  <div class="header-container">
-    <a href="/" class="logo-link">
-      <span class="logo-text">YOUR STORE</span>
+<header class="site-header" style="background: {{ section.settings.header_bg }}; color: {{ section.settings.text_color }};">
+  <div class="header-inner">
+    <!-- LOGO -->
+    <a href="/" class="logo">
+      {% if section.settings.logo %}
+        {{ section.settings.logo | image_url: '200x' | image_tag: 'alt': section.settings.store_name }}
+      {% else %}
+        <span class="logo-text">{{ section.settings.store_name }}</span>
+      {% endif %}
     </a>
 
-    <nav class="desktop-nav">
-      <a href="/" class="nav-link">Home</a>
-      <a href="/collections/all" class="nav-link">Shop</a>
-      <a href="/pages/about" class="nav-link">About</a>
-      <a href="/pages/contact" class="nav-link">Contact</a>
+    <!-- NAVIGATION -->
+    <nav class="main-nav">
+      {% for link in section.settings.menu.links %}
+        <a href="{{ link.url }}" class="nav-link">{{ link.title }}</a>
+      {% endfor %}
     </nav>
 
-    <div class="header-icons">
-      <a href="/search" class="icon-btn">🔍</a>
-      <a href="/account" class="icon-btn">👤</a>
-      <a href="/cart" class="icon-btn cart-icon">
+    <!-- RIGHT ICONS -->
+    <div class="header-actions">
+      <a href="/search" class="icon-link">🔍</a>
+      <a href="/account" class="icon-link">👤</a>
+      <a href="/cart" class="icon-link cart-icon">
         🛒
-        <span class="cart-count">{{ cart.item_count }}</span>
+        {% if cart.item_count > 0 %}<span class="cart-count">{{ cart.item_count }}</span>{% endif %}
       </a>
       <button class="menu-toggle" id="menuToggle">☰</button>
     </div>
   </div>
 
+  <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="/" class="mobile-link">Home</a>
-    <a href="/collections/all" class="mobile-link">Shop</a>
-    <a href="/pages/about" class="mobile-link">About</a>
-    <a href="/pages/contact" class="mobile-link">Contact</a>
+    {% for link in section.settings.menu.links %}
+      <a href="{{ link.url }}" class="mobile-link">{{ link.title }}</a>
+    {% endfor %}
   </div>
 </header>
 
+{% schema %}
+{
+  "name": "Custom Header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "🎨 Branding"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo",
+      "info": "Upload your logo — leave empty to use text name"
+    },
+    {
+      "type": "text",
+      "id": "store_name",
+      "label": "Store Name",
+      "default": "YOUR STORE"
+    },
+    {
+      "type": "header",
+      "content": "🎨 Colours"
+    },
+    {
+      "type": "color",
+      "id": "header_bg",
+      "label": "Background Colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text & Icon Colour",
+      "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "🔗 Navigation"
+    },
+    {
+      "type": "menu",
+      "id": "menu",
+      "label": "Main Menu",
+      "default": "main-menu"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Header",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}
+
 <style>
-* {margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;}
-.custom-header{background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:999;}
-.header-container{max-width:1200px;margin:0 auto;padding:12px 15px;display:flex;align-items:center;justify-content:space-between;}
-.logo-link{text-decoration:none;}
-.logo-text{font-size:20px;font-weight:700;color:#111;}
-.desktop-nav{display:flex;gap:28px;}
-.nav-link{text-decoration:none;color:#333;font-size:15px;font-weight:500;transition:color .2s;}
-.nav-link:hover{color:#2563eb;}
-.header-icons{display:flex;align-items:center;gap:16px;}
-.icon-btn{font-size:20px;text-decoration:none;color:#333;position:relative;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;}
+.site-header{position:sticky;top:0;z-index:999;border-bottom:1px solid #eee;}
+.header-inner{max-width:1200px;margin:0 auto;padding:15px;display:flex;align-items:center;justify-content:space-between;}
+.logo{text-decoration:none;font-size:22px;font-weight:700;}
+.logo-text{color:inherit;}
+.logo img{height:40px;width:auto;}
+.main-nav{display:flex;gap:25px;}
+.nav-link{text-decoration:none;font-size:15px;font-weight:500;transition:opacity .2s;}
+.nav-link:hover{opacity:.7;}
+.header-actions{display:flex;align-items:center;gap:18px;}
+.icon-link{font-size:20px;text-decoration:none;position:relative;}
 .cart-count{position:absolute;top:-8px;right:-8px;background:#d32f2f;color:#fff;font-size:11px;min-width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
-.menu-toggle{display:none;background:none;border:none;font-size:24px;cursor:pointer;color:#333;}
-.mobile-menu{display:none;flex-direction:column;background:#fff;border-top:1px solid #eee;padding:10px 0;}
-.mobile-link{padding:12px 20px;text-decoration:none;color:#333;font-size:15px;border-bottom:1px solid #f5f5f5;}
+.menu-toggle{display:none;background:none;border:none;font-size:24px;cursor:pointer;}
+.mobile-menu{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border-top:1px solid #eee;padding:15px;flex-direction:column;gap:12px;}
+.mobile-link{font-size:16px;text-decoration:none;padding:8px 0;}
+
 @media (max-width:768px){
-  .desktop-nav{display:none;}
+  .main-nav{display:none;}
   .menu-toggle{display:block;}
   .mobile-menu.active{display:flex;}
 }
