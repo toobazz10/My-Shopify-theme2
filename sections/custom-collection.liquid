@@ -1,14 +1,22 @@
 {% comment %}
-=== CUSTOM CATALOGUE / COLLECTION PAGE ===
-Filters · Sorting · Pagination
+=== CUSTOM COLLECTION / CATALOGUE — FULLY EDITABLE ===
+✅ Heading · Description · Colours · Layout · All editable
 {% endcomment %}
 
-<div class="custom-collection-page">
+<div class="custom-collection-page" style="background: {{ section.settings.page_bg }};">
   <section class="collection-header">
     <div class="header-inner">
-      <h1 class="collection-title">{{ collection.title }}</h1>
-      {% if collection.description != blank %}<p class="collection-desc">{{ collection.description }}</p>{% endif %}
-      <div class="product-count">{{ collection.products_count }} product{% if collection.products_count != 1 %}s{% endif %}</div>
+      <h1 class="collection-title" style="color: {{ section.settings.heading_color }};">
+        {{ collection.title }}
+      </h1>
+      {% if collection.description != blank %}
+        <p class="collection-desc" style="color: {{ section.settings.text_color }};">
+          {{ collection.description }}
+        </p>
+      {% endif %}
+      <div class="product-count" style="color: {{ section.settings.meta_color }};">
+        {{ collection.products_count }} product{% if collection.products_count != 1 %}s{% endif %}
+      </div>
     </div>
   </section>
 
@@ -81,24 +89,66 @@ Filters · Sorting · Pagination
   {% endif %}
 </div>
 
+{% schema %}
+{
+  "name": "Custom Collection",
+  "settings": [
+    {
+      "type": "header",
+      "content": "🎨 Colours"
+    },
+    {
+      "type": "color",
+      "id": "page_bg",
+      "label": "Page Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Colour",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Description Colour",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "meta_color",
+      "label": "Count / Meta Colour",
+      "default": "#777777"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Collection",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;}
 .custom-collection-page{width:100%;max-width:1200px;margin:0 auto;padding:0 15px;}
 .collection-header{text-align:center;padding:30px 15px 20px;border-bottom:1px solid #eee;}
-.collection-title{font-size:28px;font-weight:700;color:#111;margin-bottom:8px;}
-.collection-desc{font-size:15px;color:#555;max-width:700px;margin:0 auto 10px;line-height:1.5;}
-.product-count{font-size:14px;color:#777;}
+.collection-title{font-size:28px;font-weight:700;margin-bottom:8px;}
+.collection-desc{font-size:15px;max-width:700px;margin:0 auto 10px;line-height:1.5;}
+.product-count{font-size:14px;}
 .filters-bar{padding:15px 0;border-bottom:1px solid #eee;position:relative;}
 .filters-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;}
 .filter-toggle{background:#f5f5f5;border:none;padding:8px 16px;border-radius:6px;font-size:15px;cursor:pointer;}
 .filters-dropdown{position:absolute;top:100%;left:15px;background:#fff;border:1px solid #eee;border-radius:8px;padding:15px;box-shadow:0 4px 12px rgba(0,0,0,.08);z-index:100;display:none;min-width:220px;}
 .filters-dropdown.active{display:block;}
 .filter-group{margin-bottom:12px;}
-.filter-group h4{font-size:14px;font-weight:600;margin-bottom:6px;color:#222;}
+.filter-group h4{font-size:14px;font-weight:600;margin-bottom:6px;}
 .filter-group label{display:block;font-size:14px;color:#444;margin:4px 0;cursor:pointer;}
 .sort-wrap{display:flex;align-items:center;gap:8px;}
-.sort-wrap label{font-size:14px;color:#555;}
-.sort-select{padding:6px 10px;border:1px solid #ddd;border-radius:6px;font-size:14px;background:#fff;}
+.sort-wrap label{font-size:14px;}
+.sort-select{padding:6px 10px;border:1px solid #ddd;border-radius:6px;font-size:14px;}
 .products-section{padding:25px 0 40px;}
 .products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
 .product-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);text-decoration:none;transition:transform .2s;display:block;}
@@ -120,7 +170,7 @@ Filters · Sorting · Pagination
 .pagination{display:flex;justify-content:center;align-items:center;gap:15px;}
 .page-link{color:#2563eb;text-decoration:none;font-size:14px;font-weight:500;}
 .page-info{font-size:14px;color:#777;}
-@media (max-width:990px){.products-grid{grid-template-columns:repeat(3,1fr);}}
+@media (max-width:990px){.products-grid{grid-template-columns:repeat(3,1fr));}}
 @media (max-width:768px){
   .products-grid{grid-template-columns:repeat(2,1fr);gap:15px;}
   .collection-title{font-size:22px;}
