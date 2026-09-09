@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Theme Settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Custom Theme"
+      },
+      {
+        "type": "text",
+        "id": "store_name",
+        "label": "Store Name",
+        "default": "Your Store"
+      }
+    ]
+  }
+]
