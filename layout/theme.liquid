@@ -1,22 +1,21 @@
 <!DOCTYPE html>
-<html lang="{{ shop.locale.iso_code }}">
+<html lang="{{ shop.locale.iso_code | default: 'en' }}">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>{{ page_title | escape }}</title>
   {{ content_for_header }}
   <link rel="stylesheet" href="{{ 'style.css' | asset_url }}">
 </head>
-<body class="{{ template }}">
+<body class="{{ template | escape }}">
 
-  {% comment %} HEADER - Editable in Theme Editor {% endcomment %}
+  {% comment %} ✅ Section names MATCH FILE NAMES exactly {% endcomment %}
   {% section 'header' %}
 
   <main role="main">
     {{ content_for_layout }}
   </main>
 
-  {% comment %} FOOTER - Editable in Theme Editor {% endcomment %}
   {% section 'footer' %}
 
   <script src="{{ 'script.js' | asset_url }}"></script>
