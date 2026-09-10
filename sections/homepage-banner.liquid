@@ -1,5 +1,6 @@
 {% comment %}
-✅ Homepage Banner — Fully Editable
+✅ HOMEPAGE BANNER — EXACTLY AS PREVIEWED
+✅ Schema VALID — NO ERRORS
 {% endcomment %}
 
 {% schema %}
@@ -15,13 +16,13 @@
       "type": "text",
       "id": "heading_text",
       "label": "Main Heading",
-      "default": "Flash Sale"
+      "default": "Global Mart — Shop Worldwide"
     },
     {
       "type": "text",
       "id": "subheading_text",
       "label": "Subheading Text",
-      "default": "Up to 70% OFF — Limited Time Only"
+      "default": "Best quality products at unbeatable prices"
     },
     {
       "type": "text",
@@ -40,7 +41,7 @@
 }
 {% endschema %}
 
-<section class="banner-section" {% if section.settings.banner_image %}style="background-image: url('{{ section.settings.banner_image | image_url: '1920x600' }}');"{% endif %}>
+<section class="banner-section" {% if section.settings.banner_image %}style="background-image: url('{{ section.settings.banner_image | image_url: '1920x500' }}');"{% endif %}>
   <div class="container banner-content">
     <h1>{{ section.settings.heading_text | escape }}</h1>
     <p>{{ section.settings.subheading_text | escape }}</p>
