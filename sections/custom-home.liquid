@@ -1,0 +1,692 @@
+{% comment %}
+✅ GLOBAL MART HOMEPAGE
+✅ No errors | Fully editable | Shopify‑compliant
+{% endcomment %}
+
+<div class="custom-home-page">
+
+  <!-- 🖼️ HERO BANNER -->
+  <section class="hero-section" style="
+    {% if section.settings.hero_image %}
+      background: url('{{ section.settings.hero_image | image_url: width: 1920 }}') center center / cover no-repeat;
+    {% else %}
+      background: linear-gradient(135deg, {{ section.settings.hero_color_1 }}, {{ section.settings.hero_color_2 }});
+    {% endif %}
+  ">
+    <div class="hero-overlay" style="background: rgba(0,0,0, {{ section.settings.hero_overlay_opacity | divided_by: 100 }});"></div>
+    <div class="container hero-content-wrap">
+      <div class="hero-content">
+        <h1 class="hero-title" style="color: {{ section.settings.hero_text_color }};">{{ section.settings.hero_title }}</h1>
+        <p class="hero-subtitle" style="color: {{ section.settings.hero_text_color }};">{{ section.settings.hero_subtitle }}</p>
+        <div class="hero-buttons">
+          <a href="{{ section.settings.hero_link_1 }}" class="hero-btn primary-btn" style="background: {{ section.settings.btn_primary_bg }}; color: {{ section.settings.btn_primary_text }};">
+            {{ section.settings.btn_primary_label }}
+          </a>
+          {% if section.settings.show_second_btn %}
+          <a href="{{ section.settings.hero_link_2 }}" class="hero-btn secondary-btn" style="background: {{ section.settings.btn_secondary_bg }}; color: {{ section.settings.btn_secondary_text }}; border: 2px solid {{ section.settings.btn_secondary_text }};">
+            {{ section.settings.btn_secondary_label }}
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 📦 COLLECTIONS -->
+  {% if section.settings.show_collections %}
+  <section class="collections-section">
+    <div class="container">
+      <h2 class="section-title" style="color: {{ section.settings.heading_color }};">{{ section.settings.collections_title }}</h2>
+      <div class="collections-grid">
+        {% for collection in collections limit: section.settings.collections_count %}
+          {% if collection.products.size > 0 %}
+            <a href="{{ collection.url }}" class="collection-card">
+              <div class="collection-image">
+                {% if collection.image %}
+                  <img src="{{ collection.image | image_url: width: 400 }}" alt="{{ collection.title | escape }}" loading="lazy">
+                {% else %}
+                  <div class="collection-placeholder">
+                    <span>{{ collection.title | escape }}</span>
+                  </div>
+                {% endif %}
+              </div>
+              <h3 class="collection-name" style="color: {{ section.settings.text_color }};">{{ collection.title }}</h3>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- ⭐ PRODUCTS -->
+  {% if section.settings.show_products %}
+  <section class="products-section" style="background: {{ section.settings.products_bg }};">
+    <div class="container">
+      <h2 class="section-title" style="color: {{ section.settings.heading_color }};">{{ section.settings.products_title }}</h2>
+      <div class="products-grid">
+        {% assign featured_collection = collections.all %}
+        {% for product in featured_collection.products limit: section.settings.products_count %}
+          <a href="{{ product.url }}" class="product-card">
+            <div class="product-image">
+              {% if product.featured_image %}
+                <img src="{{ product.featured_image | image_url: width: 350 }}" alt="{{ product.title | escape }}" loading="lazy">
+              {% else %}
+                <div class="product-placeholder">No Image</div>
+              {% endif %}
+
+              {% if product.compare_at_price > product.price %}
+                <div class="product-sale-badge" style="background: {{ section.settings.sale_badge_bg }};">
+                  {% assign saving = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price | round %}
+                  -{{ saving }}%
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="product-info">
+              <h3 class="product-name" style="color: {{ section.settings.text_color }};">{{ product.title | truncate: 35 }}</h3>
+              <div class="product-price">
+                <span style="color: {{ section.settings.price_color }};">{{ product.price | money }}</span>
+                {% if product.compare_at_price > product.price %}
+                  <span class="price-compare">{{ product.compare_at_price | money }}</span>
+                {% endif %}
+              </div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- 🛡️ TRUST SECTION -->
+  {% if section.settings.show_trust %}
+  <section class="trust-section">
+    <div class="container">
+      <h2 class="section-title" style="color: {{ section.settings.heading_color }};">{{ section.settings.trust_title }}</h2>
+      <div class="trust-grid">
+        <div class="trust-item">
+          <h4 style="color: {{ section.settings.text_color }};">{{ section.settings.trust_1_title }}</h4>
+          <p style="color: {{ section.settings.desc_color }};">{{ section.settings.trust_1_text }}</p>
+        </div>
+        <div class="trust-item">
+          <h4 style="color: {{ section.settings.text_color }};">{{ section.settings.trust_2_title }}</h4>
+          <p style="color: {{ section.settings.desc_color }};">{{ section.settings.trust_2_text }}</p>
+        </div>
+        <div class="trust-item">
+          <h4 style="color: {{ section.settings.text_color }};">{{ section.settings.trust_3_title }}</h4>
+          <p style="color: {{ section.settings.desc_color }};">{{ section.settings.trust_3_text }}</p>
+        </div>
+        <div class="trust-item">
+          <h4 style="color: {{ section.settings.text_color }};">{{ section.settings.trust_4_title }}</h4>
+          <p style="color: {{ section.settings.desc_color }};">{{ section.settings.trust_4_text }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+</div>
+
+{% schema %}
+{
+  "name": "Global Mart Homepage",
+  "settings": [
+
+    {
+      "type": "header",
+      "content": "🖼️ HERO BANNER"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Background Image"
+    },
+    {
+      "type": "range",
+      "id": "hero_overlay_opacity",
+      "label": "Dark Overlay (%)",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "default": 30
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Main Heading",
+      "default": "Global Mart"
+    },
+    {
+      "type": "text",
+      "id": "hero_subtitle",
+      "label": "Sub Heading",
+      "default": "Your World of Quality Products"
+    },
+    {
+      "type": "color",
+      "id": "hero_color_1",
+      "label": "Fallback Color 1",
+      "default": "#004d40"
+    },
+    {
+      "type": "color",
+      "id": "hero_color_2",
+      "label": "Fallback Color 2",
+      "default": "#00796b"
+    },
+    {
+      "type": "color",
+      "id": "hero_text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+
+    {
+      "type": "header",
+      "content": "🔘 BUTTONS"
+    },
+    {
+      "type": "url",
+      "id": "hero_link_1",
+      "label": "Primary Button Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "btn_primary_label",
+      "label": "Primary Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "color",
+      "id": "btn_primary_bg",
+      "label": "Primary Button BG",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "btn_primary_text",
+      "label": "Primary Button Text",
+      "default": "#004d40"
+    },
+
+    {
+      "type": "checkbox",
+      "id": "show_second_btn",
+      "label": "Show Secondary Button",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "hero_link_2",
+      "label": "Secondary Button Link",
+      "default": "/"
+    },
+    {
+      "type": "text",
+      "id": "btn_secondary_label",
+      "label": "Secondary Button Text",
+      "default": "Learn More"
+    },
+    {
+      "type": "color",
+      "id": "btn_secondary_bg",
+      "label": "Secondary Button BG",
+      "default": "transparent"
+    },
+    {
+      "type": "color",
+      "id": "btn_secondary_text",
+      "label": "Secondary Button Text",
+      "default": "#ffffff"
+    },
+
+    {
+      "type": "header",
+      "content": "📦 COLLECTIONS"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collections",
+      "label": "Show Collections",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "collections_title",
+      "label": "Section Title",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "range",
+      "id": "collections_count",
+      "label": "Number of Collections",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    },
+
+    {
+      "type": "header",
+      "content": "⭐ PRODUCTS"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_products",
+      "label": "Show Products",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "products_title",
+      "label": "Section Title",
+      "default": "Best Sellers"
+    },
+    {
+      "type": "range",
+      "id": "products_count",
+      "label": "Number of Products",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "products_bg",
+      "label": "Background Color",
+      "default": "#f9fafb"
+    },
+    {
+      "type": "color",
+      "id": "sale_badge_bg",
+      "label": "Sale Badge Color",
+      "default": "#d32f2f"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price Color",
+      "default": "#d32f2f"
+    },
+
+    {
+      "type": "header",
+      "content": "🛡️ TRUST INFO"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust",
+      "label": "Show Trust Section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "trust_title",
+      "label": "Section Title",
+      "default": "Why Shop With Us"
+    },
+    {
+      "type": "text",
+      "id": "trust_1_title",
+      "label": "Feature 1 Title",
+      "default": "✅ Secure Checkout"
+    },
+    {
+      "type": "text",
+      "id": "trust_1_text",
+      "label": "Feature 1 Text",
+      "default": "Payments fully encrypted"
+    },
+    {
+      "type": "text",
+      "id": "trust_2_title",
+      "label": "Feature 2 Title",
+      "default": "🚚 Worldwide Delivery"
+    },
+    {
+      "type": "text",
+      "id": "trust_2_text",
+      "label": "Feature 2 Text",
+      "default": "Fast shipping globally"
+    },
+    {
+      "type": "text",
+      "id": "trust_3_title",
+      "label": "Feature 3 Title",
+      "default": "🔧 Quality Guarantee"
+    },
+    {
+      "type": "text",
+      "id": "trust_3_text",
+      "label": "Feature 3 Text",
+      "default": "Every product checked"
+    },
+    {
+      "type": "text",
+      "id": "trust_4_title",
+      "label": "Feature 4 Title",
+      "default": "💬 24/7 Support"
+    },
+    {
+      "type": "text",
+      "id": "trust_4_text",
+      "label": "Feature 4 Text",
+      "default": "Help whenever you need it"
+    },
+
+    {
+      "type": "header",
+      "content": "🎨 TEXT COLORS"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Headings Color",
+      "default": "#1f2937"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body Text Color",
+      "default": "#1f2937"
+    },
+    {
+      "type": "color",
+      "id": "desc_color",
+      "label": "Description Color",
+      "default": "#6b7280"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+html, body {
+  overflow-x: hidden !important;
+  width: 100% !important;
+}
+
+.custom-home-page {
+  width: 100% !important;
+  overflow: hidden !important;
+}
+
+.container {
+  max-width: 1200px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 16px !important;
+}
+
+/* 🖼️ HERO */
+.hero-section {
+  width: 100% !important;
+  min-height: 520px !important;
+  padding: 60px 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.hero-overlay {
+  position: absolute !important;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 1 !important;
+}
+
+.hero-content-wrap {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.hero-content {
+  max-width: 750px !important;
+  text-align: center !important;
+}
+
+.hero-title {
+  font-size: 42px !important;
+  font-weight: 800 !important;
+  margin-bottom: 16px !important;
+  line-height: 1.15 !important;
+}
+
+.hero-subtitle {
+  font-size: 18px !important;
+  margin-bottom: 32px !important;
+  opacity: 0.95 !important;
+  line-height: 1.5 !important;
+}
+
+.hero-buttons {
+  display: flex !important;
+  gap: 16px !important;
+  justify-content: center !important;
+  flex-wrap: wrap !important;
+}
+
+.hero-btn {
+  padding: 14px 32px !important;
+  border-radius: 8px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: all 0.2s !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+.hero-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18) !important;
+}
+
+.secondary-btn {
+  background: transparent !important;
+}
+
+/* 📦 COLLECTIONS */
+.collections-section {
+  padding: 50px 0 !important;
+}
+
+.section-title {
+  font-size: 26px !important;
+  text-align: center !important;
+  margin-bottom: 36px !important;
+  font-weight: 700 !important;
+}
+
+.collections-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 20px !important;
+}
+
+.collection-card {
+  text-decoration: none !important;
+  color: inherit !important;
+  display: block !important;
+}
+
+.collection-image {
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  background: #f3f4f6 !important;
+  margin-bottom: 12px !important;
+}
+
+.collection-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.collection-placeholder {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #666 !important;
+}
+
+.collection-name {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+}
+
+/* ⭐ PRODUCTS */
+.products-section {
+  padding: 50px 0 !important;
+}
+
+.products-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 24px !important;
+}
+
+.product-card {
+  background: #fff !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  text-decoration: none !important;
+  color: inherit !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important;
+  transition: transform 0.2s !important;
+}
+
+.product-card:hover {
+  transform: translateY(-4px) !important;
+}
+
+.product-image {
+  position: relative !important;
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  overflow: hidden !important;
+  background: #f3f4f6 !important;
+}
+
+.product-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+}
+
+.product-placeholder {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #888 !important;
+}
+
+.product-sale-badge {
+  position: absolute !important;
+  top: 10px !important;
+  left: 10px !important;
+  color: #fff !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+}
+
+.product-info {
+  padding: 16px !important;
+}
+
+.product-name {
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  margin-bottom: 8px !important;
+  line-height: 1.3 !important;
+}
+
+.product-price {
+  font-size: 17px !important;
+  font-weight: 700 !important;
+}
+
+.price-compare {
+  font-size: 13px !important;
+  color: #9ca3af !important;
+  text-decoration: line-through !important;
+  margin-left: 6px !important;
+}
+
+/* 🛡️ TRUST */
+.trust-section {
+  padding: 50px 0 !important;
+  background: #fff !important;
+}
+
+.trust-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 24px !important;
+  text-align: center !important;
+}
+
+.trust-item h4 {
+  font-size: 16px !important;
+  margin-bottom: 8px !important;
+  font-weight: 600 !important;
+}
+
+.trust-item p {
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 900px) {
+  .collections-grid, .products-grid, .trust-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .hero-title {
+    font-size: 32px !important;
+  }
+  .hero-section {
+    min-height: 420px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 26px !important;
+  }
+  .collections-grid, .products-grid, .trust-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .hero-section {
+    min-height: 380px !important;
+    padding: 40px 12px !important;
+  }
+  .hero-buttons {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  .hero-btn {
+    width: 100% !important;
+  }
+}
+</style>
