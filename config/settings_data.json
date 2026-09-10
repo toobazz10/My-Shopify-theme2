@@ -1,8 +1,65 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "header_bg": "#ffffff",
     "text_color": "#111111",
     "footer_bg": "#111111",
-    "footer_text_color": "#ffffff"
+    "footer_text_color": "#ffffff",
+    "sections": {
+      "custom-header": {
+        "type": "custom-header",
+        "settings": {
+          "header_bg": "#ffffff",
+          "text_color": "#004d40"
+        }
+      },
+      "custom-home": {
+        "type": "custom-home",
+        "blocks": {
+          "featured_product_CFE4aM": {
+            "type": "featured_product",
+            "settings": {
+              "product": "3-in-1-rotary-peeler-fruit-vegetables-cabbage-graters-salad-carrot-potato-slicer-kitchen-multifunction-grater-julienne-peeler"
+            }
+          }
+        },
+        "block_order": [
+          "featured_product_CFE4aM"
+        ],
+        "settings": {
+          "hero_bg": "#004d40",
+          "hero_text": "#ffffff",
+          "primary": "#00695c",
+          "accent": "#ff8f00",
+          "text_dark": "#1e293b",
+          "text_light": "#64748b",
+          "price_col": "#d32f2f"
+        }
+      },
+      "custom-footer": {
+        "type": "custom-footer",
+        "settings": {
+          "footer_bg": "#111111",
+          "text_color": "#ffffff",
+          "col1_title": "About Us",
+          "col1_text": "Everything you need in one place.",
+          "col2_title": "Shop",
+          "col3_title": "Support",
+          "col4_title": "Follow Us",
+          "facebook": "",
+          "instagram": "",
+          "copyright": "© 2026 YOUR STORE. All rights reserved."
+        }
+      }
+    },
+    "content_for_index": []
   }
 }
