@@ -1,9 +1,9 @@
 {% comment %}
-=== CUSTOM HOMEPAGE — FULLY EDITABLE VERSION ===
-✅ You can edit EVERY part in Shopify Customize
-✅ Pick EXACT products to show in "Top Picks"
-✅ Fixed: product_picker → product_list (saves correctly)
-✅ Fixed: View button no longer nested inside the card link
+  === CUSTOM HOMEPAGE — FULLY EDITABLE VERSION ===
+  ✅ You can edit EVERY part in Shopify Customize
+  ✅ Pick EXACT products to show in "Top Picks"
+  ✅ : product_picker → product_list (saves correctly)
+  ✅ : View button no longer nested inside the card link
 {% endcomment %}
 
 <div class="custom-homepage">
@@ -13,7 +13,11 @@
       <div class="hero-text">
         <h1>{{ section.settings.hero_title }}</h1>
         <p>{{ section.settings.hero_desc }}</p>
-        <a href="{{ section.settings.hero_link }}" class="hero-btn" style="background: {{ section.settings.btn_bg }}; color: {{ section.settings.btn_text }};">
+        <a
+          href="{{ section.settings.hero_link }}"
+          class="hero-btn"
+          style="background: {{ section.settings.btn_bg }}; color: {{ section.settings.btn_text }};"
+        >
           {{ section.settings.btn_label }}
         </a>
       </div>
@@ -198,32 +202,32 @@
 {% endschema %}
 
 <style>
-.custom-homepage *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;}
-.custom-homepage{width:100%;max-width:1200px;margin:0 auto;padding:0 15px;}
-.custom-homepage .section-title{font-size:20px;font-weight:700;color:#111;margin:40px 0 20px;}
-.custom-homepage .hero-section{border-radius:16px;padding:30px 20px;margin-top:20px;}
-.custom-homepage .hero-inner{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:20px;}
-.custom-homepage .hero-text h1{font-size:28px;line-height:1.2;color:#111;margin-bottom:12px;}
-.custom-homepage .hero-text p{font-size:15px;color:#444;margin-bottom:20px;}
-.custom-homepage .hero-btn{padding:10px 22px;border-radius:6px;text-decoration:none;font-weight:500;display:inline-block;}
-.custom-homepage .hero-image img{width:100%;height:auto;}
-.custom-homepage .placeholder-img{width:100%;height:200px;background:linear-gradient(135deg,#e9e5e0,#e0e9e5);border-radius:8px;}
-.custom-homepage .categories-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
-.custom-homepage .category-card{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#111;}
-.custom-homepage .category-img{width:100%;height:100px;border-radius:8px;margin-bottom:8px;overflow:hidden;}
-.custom-homepage .category-img img{width:100%;height:100%;object-fit:cover;}
-.custom-homepage .products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
-.custom-homepage .product-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);text-decoration:none;}
-.custom-homepage .product-img img{width:100%;height:180px;object-fit:cover;}
-.custom-homepage .product-info{padding:12px;}
-.custom-homepage .product-info h3{font-size:14px;color:#222;margin-bottom:6px;}
-.custom-homepage .price{font-size:16px;font-weight:700;color:#d32f2f;margin-bottom:10px;}
-.custom-homepage .view-btn{width:100%;background:#2563eb;color:#fff;padding:8px 0;border-radius:6px;font-size:14px;text-align:center;display:block;box-sizing:border-box;}
+  .custom-homepage *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;}
+  .custom-homepage{width:100%;max-width:1200px;margin:0 auto;padding:0 15px;}
+  .custom-homepage .section-title{font-size:20px;font-weight:700;color:#111;margin:40px 0 20px;}
+  .custom-homepage .hero-section{border-radius:16px;padding:30px 20px;margin-top:20px;}
+  .custom-homepage .hero-inner{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:20px;}
+  .custom-homepage .hero-text h1{font-size:28px;line-height:1.2;color:#111;margin-bottom:12px;}
+  .custom-homepage .hero-text p{font-size:15px;color:#444;margin-bottom:20px;}
+  .custom-homepage .hero-btn{padding:10px 22px;border-radius:6px;text-decoration:none;font-weight:500;display:inline-block;}
+  .custom-homepage .hero-image img{width:100%;height:auto;}
+  .custom-homepage .placeholder-img{width:100%;height:200px;background:linear-gradient(135deg,#e9e5e0,#e0e9e5);border-radius:8px;}
+  .custom-homepage .categories-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
+  .custom-homepage .category-card{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#111;}
+  .custom-homepage .category-img{width:100%;height:100px;border-radius:8px;margin-bottom:8px;overflow:hidden;}
+  .custom-homepage .category-img img{width:100%;height:100%;object-fit:cover;}
+  .custom-homepage .products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  .custom-homepage .product-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);text-decoration:none;}
+  .custom-homepage .product-img img{width:100%;height:180px;object-fit:cover;}
+  .custom-homepage .product-info{padding:12px;}
+  .custom-homepage .product-info h3{font-size:14px;color:#222;margin-bottom:6px;}
+  .custom-homepage .price{font-size:16px;font-weight:700;color:#d32f2f;margin-bottom:10px;}
+  .custom-homepage .view-btn{width:100%;background:#2563eb;color:#fff;padding:8px 0;border-radius:6px;font-size:14px;text-align:center;display:block;box-sizing:border-box;}
 
-@media (max-width:768px){
-  .custom-homepage .hero-inner{grid-template-columns:1fr;}
-  .custom-homepage .hero-text h1{font-size:22px;}
-  .custom-homepage .categories-grid{grid-template-columns:repeat(3,1fr);}
-  .custom-homepage .products-grid{grid-template-columns:repeat(2,1fr);}
-}
+  @media (max-width:768px){
+    .custom-homepage .hero-inner{grid-template-columns:1fr;}
+    .custom-homepage .hero-text h1{font-size:22px;}
+    .custom-homepage .categories-grid{grid-template-columns:repeat(3,1fr);}
+    .custom-homepage .products-grid{grid-template-columns:repeat(2,1fr);}
+  }
 </style>
