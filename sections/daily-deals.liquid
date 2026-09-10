@@ -1,35 +1,43 @@
+{% comment %}
+  File MUST be named: sections/daily-deals.liquid
+{% endcomment %}
+
 {% schema %}
 {
   "name": "Daily Deals",
   "settings": [
     {"type": "text", "id": "countdown_end", "label": "Countdown End Date (YYYY-MM-DD)", "default": "2026-12-31"}
-  ]
+  ],
+  "presets": [{"name": "Daily Deals"}]
 }
 {% endschema %}
 
 <section class="deals-section">
   <div class="container">
     <h2>Daily Deals & Trending</h2>
-    <!-- COUNTDOWN TIMER -->
-    <div class="countdown" data-end="{{ settings.countdown_end }}">
-      <div class="time-box"><span id="d">00</span><small>Days</small></div>
-      <div class="time-box"><span id="h">00</span><small>Hrs</small></div>
-      <div class="time-box"><span id="m">00</span><small>Mins</small></div>
-      <div class="time-box"><span id="s">00</span><small>Secs</small></div>
+
+    <!-- ✅ FIXED: Safe date format for JS -->
+    <div class="countdown" data-end="{{ section.settings.countdown_end | escape }}">
+      <div class="time-box"><span id="dd">00</span><small>Days</small></div>
+      <div class="time-box"><span id="hh">00</span><small>Hrs</small></div>
+      <div class="time-box"><span id="mm">00</span><small>Mins</small></div>
+      <div class="time-box"><span id="ss">00</span><small>Secs</small></div>
     </div>
 
-    <!-- FEATURED PRODUCTS -->
     <div class="product-grid">
       {% assign deals = collections.all.products | limit: 8 %}
       {% for product in deals %}
         <div class="product-card">
-          <a href="{{ product.url }}">
+          <a href="{{ product.url | escape }}">
             <img src="{{ product.featured_image | image_url: '500x500' }}" alt="{{ product.title | escape }}" loading="lazy">
             <h3>{{ product.title | escape }}</h3>
             <p class="price">{{ product.price | money }}</p>
             <div class="stock-status">
-              {% if product.inventory_quantity > 5 %}<span class="in-stock">In Stock</span>
-              {% else %}<span class="low-stock">Low Stock</span>{% endif %}
+              {% if product.inventory_quantity > 5 %}
+                <span class="in-stock">In Stock</span>
+              {% else %}
+                <span class="low-stock">Low Stock</span>
+              {% endif %}
             </div>
             <div class="rating">⭐⭐⭐⭐⭐</div>
           </a>
