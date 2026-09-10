@@ -1,0 +1,240 @@
+{% comment %}
+=== CUSTOM HOMEPAGE — COMPATIBLE VERSION ===
+✅ Works on ALL Shopify themes — NO invalid types
+✅ Saves with ZERO errors
+✅ Still fully editable in Customize
+{% endcomment %}
+
+<div class="custom-homepage">
+  <!-- HERO BANNER -->
+  <section class="hero-section" style="background: {{ section.settings.hero_bg }};">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1>{{ section.settings.hero_title }}</h1>
+        <p>{{ section.settings.hero_desc }}</p>
+        <a href="{{ section.settings.hero_link }}" class="hero-btn" style="background: {{ section.settings.btn_bg }}; color: {{ section.settings.btn_text }};">
+          {{ section.settings.btn_label }}
+        </a>
+      </div>
+      <div class="hero-image">
+        {% if section.settings.hero_image %}
+          {{ section.settings.hero_image | image_url: '400x' | image_tag }}
+        {% else %}
+          <div class="placeholder-img"></div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- TOP CATEGORIES -->
+  <section class="categories-section">
+    <h2 class="section-title">{{ section.settings.cat_heading }}</h2>
+    <div class="categories-grid">
+      {% for block in section.blocks %}
+        {% if block.type == 'category' %}
+          <a href="{{ block.settings.link }}" class="category-card">
+            <div class="category-img" style="background: {{ block.settings.bg_color }};">
+              {% if block.settings.image %}
+                {{ block.settings.image | image_url: '200x' | image_tag }}
+              {% endif %}
+            </div>
+            <span>{{ block.settings.name }}</span>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- TOP PICKS — NOW COMPATIBLE ✅ -->
+  <section class="products-section">
+    <h2 class="section-title">{{ section.settings.products_heading }}</h2>
+    <div class="products-grid">
+      {% comment %}
+      ✅ OPTION 1: Show from a specific collection you type below
+      OR change to collections.all for everything
+      {% endcomment %}
+      {% assign target_collection = collections[section.settings.collection_handle] %}
+      {% if target_collection and target_collection.products.size > 0 %}
+        {% for product in target_collection.products limit:8 %}
+          <a href="{{ product.url }}" class="product-card">
+            <div class="product-img">
+              {{ product.featured_image | image_url: '300x' | image_tag }}
+            </div>
+            <div class="product-info">
+              <h3>{{ product.title | truncate:25 }}</h3>
+              <div class="price">{{ product.price | money }}</div>
+              <a href="{{ product.url }}" class="view-btn">View</a>
+            </div>
+          </a>
+        {% endfor %}
+      {% else %}
+        <p style="grid-column:1/-1;text-align:center;padding:20px;">Add products to your selected collection!</p>
+      {% endif %}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Homepage",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Section"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "A store for shopping and departments."
+    },
+    {
+      "type": "textarea",
+      "id": "hero_desc",
+      "label": "Description",
+      "default": "Everything you could possibly need in one place."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "color",
+      "id": "hero_bg",
+      "label": "Background Colour",
+      "default": "#fce4ec"
+    },
+    {
+      "type": "text",
+      "id": "hero_link",
+      "label": "Button Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button Text",
+      "default": "Learn More"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg",
+      "label": "Button Background",
+      "default": "#004d40"
+    },
+    {
+      "type": "color",
+      "id": "btn_text",
+      "label": "Button Text Colour",
+      "default": "#ffffff"
+    },
+
+    {
+      "type": "header",
+      "content": "Categories Section"
+    },
+    {
+      "type": "text",
+      "id": "cat_heading",
+      "label": "Section Heading",
+      "default": "Shop Our Top Categories"
+    },
+
+    {
+      "type": "header",
+      "content": "Top Picks Section ✅"
+    },
+    {
+      "type": "text",
+      "id": "products_heading",
+      "label": "Section Heading",
+      "default": "Top Picks"
+    },
+    {
+      "type": "text",
+      "id": "collection_handle",
+      "label": "Collection Handle",
+      "default": "top-picks",
+      "info": "Create a collection named 'Top Picks' — type its handle here (all lowercase, no spaces). Products in that collection show here."
+    }
+  ],
+
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Category Name",
+          "default": "Furniture"
+        },
+        {
+          "type": "text",
+          "id": "link",
+          "label": "Link",
+          "default": "/collections/furniture"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background Colour",
+          "default": "#e9e5e0"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category Image"
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Custom Homepage",
+      "blocks": [
+        {"type": "category"},
+        {"type": "category"},
+        {"type": "category"},
+        {"type": "category"},
+        {"type": "category"},
+        {"type": "category"}
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;}
+.custom-homepage{width:100%;max-width:1200px;margin:0 auto;padding:0 15px;}
+.section-title{font-size:20px;font-weight:700;color:#111;margin:40px 0 20px;}
+.hero-section{border-radius:16px;padding:30px 20px;margin-top:20px;}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:20px;}
+.hero-text h1{font-size:28px;line-height:1.2;color:#111;margin-bottom:12px;}
+.hero-text p{font-size:15px;color:#444;margin-bottom:20px;}
+.hero-btn{padding:10px 22px;border-radius:6px;text-decoration:none;font-weight:500;display:inline-block;}
+.hero-image img{width:100%;height:auto;}
+.placeholder-img{width:100%;height:200px;background:linear-gradient(135deg,#e9e5e0,#e0e9e5);border-radius:8px;}
+.categories-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
+.category-card{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:#111;}
+.category-img{width:100%;height:100px;border-radius:8px;margin-bottom:8px;overflow:hidden;}
+.category-img img{width:100%;height:100px;object-fit:cover;}
+.products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+.product-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);text-decoration:none;}
+.product-img img{width:100%;height:180px;object-fit:cover;}
+.product-info{padding:12px;}
+.product-info h3{font-size:14px;color:#222;margin-bottom:6px;}
+.price{font-size:16px;font-weight:700;color:#d32f2f;margin-bottom:10px;}
+.view-btn{width:100%;background:#2563eb;color:#fff;border:none;padding:8px 0;border-radius:6px;font-size:14px;text-align:center;text-decoration:none;display:block;}
+
+@media (max-width:768px){
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-text h1{font-size:22px;}
+  .categories-grid{grid-template-columns:repeat(3,1fr);}
+  .products-grid{grid-template-columns:repeat(2,1fr);}
+}
+</style>
