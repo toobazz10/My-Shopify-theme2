@@ -1,0 +1,50 @@
+{% schema %}
+{
+  "name": "Product Grid & Filters",
+  "settings": [
+    {"type": "text", "id": "title", "label": "Section Title", "default": "All Products"}
+  ]
+}
+{% endschema %}
+
+<section class="products-section">
+  <div class="container grid-layout">
+    <!-- FILTERS SIDEBAR -->
+    <aside class="filters">
+      <h3>Filter By</h3>
+      <div class="filter-group">
+        <label>Price</label>
+        <input type="range" min="0" max="1000" value="500" class="price-filter">
+      </div>
+      <div class="filter-group">
+        <label>Brand</label>
+        <select class="brand-filter">
+          <option>All Brands</option>
+          <option>Brand A</option>
+          <option>Brand B</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Size / Color / Rating</label>
+        <p>Editable in Theme Editor</p>
+      </div>
+    </aside>
+
+    <!-- PRODUCT LIST -->
+    <div class="product-container">
+      <h2>{{ settings.title | escape }}</h2>
+      <div class="product-grid">
+        {% for product in collections.all.products %}
+          <div class="product-card">
+            <a href="{{ product.url }}">
+              <img src="{{ product.featured_image | image_url: '500x500' }}" alt="{{ product.title | escape }}" loading="lazy">
+              <h3>{{ product.title | escape }}</h3>
+              <p class="price">{{ product.price | money }}</p>
+              <button class="add-to-cart">Add to Cart</button>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
