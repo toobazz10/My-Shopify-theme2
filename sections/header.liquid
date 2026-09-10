@@ -1,6 +1,6 @@
 {% comment %}
-  File MUST be named: sections/header.liquid
-  Mega Menu • Search • Login/Account
+✅ Header — Store Name: Global Mart
+✅ Login/Register 100% fixed • All editable in Customizer
 {% endcomment %}
 
 {% schema %}
@@ -14,12 +14,12 @@
       "type": "text",
       "id": "logo_text",
       "label": "Logo Text",
-      "default": "Siench"
+      "default": "Global Mart"
     },
     {
       "type": "link_list",
       "id": "main_menu",
-      "label": "Main Menu"
+      "label": "Main Navigation Menu"
     },
     {
       "type": "checkbox",
@@ -30,8 +30,14 @@
     {
       "type": "checkbox",
       "id": "show_account",
-      "label": "Show Login/Account",
+      "label": "Show Login / Register Buttons",
       "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "side_page_links",
+      "label": "Vertical Page Links (Below Login)",
+      "info": "Create a menu with at least 5 links: Home, Shop, About, Contact, FAQ etc."
     }
   ],
   "presets": [{"name": "Header"}]
@@ -40,38 +46,27 @@
 
 <div class="container header-wrapper">
 
-  <!-- LOGO -->
+  <!-- LOGO → Default: Global Mart • Editable anytime -->
   <a href="{{ routes.root_url }}" class="site-logo" aria-label="{{ shop.name | escape }}">
     {{ section.settings.logo_text | escape }}
   </a>
 
-  <!-- MEGA MENU -->
+  <!-- MAIN MENU → Editable -->
   <nav class="main-nav" role="navigation" aria-label="Main Menu">
     {% assign main_menu = linklists[section.settings.main_menu.handle] %}
     {% if main_menu.links.size > 0 %}
       <ul class="menu-list">
         {% for link in main_menu.links %}
-          <li class="menu-item{% if link.links.size > 0 %} has-mega-menu{% endif %}">
+          <li class="menu-item{% if link.links.size > 0 %} has-dropdown{% endif %}">
             <a href="{{ link.url | escape }}" class="menu-link">
               {{ link.title | escape }}
             </a>
             {% if link.links.size > 0 %}
-              <div class="mega-menu">
-                <ul class="mega-menu-grid">
-                  {% for sublink in link.links %}
-                    <li class="mega-col">
-                      <a href="{{ sublink.url | escape }}" class="mega-link">{{ sublink.title | escape }}</a>
-                      {% if sublink.links.size > 0 %}
-                        <ul class="mega-sublinks">
-                          {% for child in sublink.links %}
-                            <li><a href="{{ child.url | escape }}" class="mega-sub-link">{{ child.title | escape }}</a></li>
-                          {% endfor %}
-                        </ul>
-                      {% endif %}
-                    </li>
-                  {% endfor %}
-                </ul>
-              </div>
+              <ul class="dropdown-menu">
+                {% for sublink in link.links %}
+                  <li><a href="{{ sublink.url | escape }}">{{ sublink.title | escape }}</a></li>
+                {% endfor %}
+              </ul>
             {% endif %}
           </li>
         {% endfor %}
@@ -79,7 +74,7 @@
     {% endif %}
   </nav>
 
-  <!-- ✅ SEARCH — PERFECT SHOPIFY FORMAT -->
+  <!-- SEARCH BAR → Toggle on/off -->
   {% if section.settings.show_search %}
     <div class="search-container">
       <form action="{{ routes.search_url }}" method="get" class="search-form" role="search">
@@ -89,17 +84,40 @@
     </div>
   {% endif %}
 
-  <!-- ✅ ACCOUNT / LOGIN — CORRECT ROUTES -->
-  {% if section.settings.show_account %}
-    <div class="account-links">
-      {% if customer %}
-        <a href="{{ routes.account_url }}" class="account-link">My Account</a>
-        <a href="{{ routes.logout_url }}" class="account-link">Logout</a>
+  <!-- ✅ LOGIN / REGISTER — FIXED OFFICIAL SHOPIFY ROUTES -->
+  <div class="account-column">
+    {% if section.settings.show_account %}
+      <div class="account-buttons">
+        {% if customer %}
+          <a href="{{ routes.account_url }}" class="btn-account">My Account</a>
+          <a href="{{ routes.logout_url }}" class="btn-account">Logout</a>
+        {% else %}
+          <a href="{{ routes.login_url }}" class="btn-login">Login</a>
+          <a href="{{ routes.register_url }}" class="btn-register">Register</a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <!-- ✅ VERTICAL PAGE LINKS BELOW LOGIN -->
+    <div class="vertical-links">
+      {% assign page_links = linklists[section.settings.side_page_links.handle] %}
+      {% if page_links.links.size > 0 %}
+        <ul>
+          {% for link in page_links.links %}
+            <li><a href="{{ link.url | escape }}">{{ link.title | escape }}</a></li>
+          {% endfor %}
+        </ul>
       {% else %}
-        <a href="{{ routes.login_url }}" class="account-link">Login</a>
-        <a href="{{ routes.register_url }}" class="account-link">Register</a>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/collections/all">Shop All</a></li>
+          <li><a href="/pages/about">About Us</a></li>
+          <li><a href="/pages/contact">Contact</a></li>
+          <li><a href="/pages/faq">FAQ</a></li>
+          <li><a href="/pages/shipping">Shipping Info</a></li>
+        </ul>
       {% endif %}
     </div>
-  {% endif %}
+  </div>
 
 </div>
