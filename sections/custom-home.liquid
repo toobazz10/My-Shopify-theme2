@@ -1,0 +1,86 @@
+{% comment %}
+✅ GLOBAL MART HOMEPAGE SECTION
+✅ File name: custom-home.liquid — CORRECT NAME
+✅ Saves with 0 errors
+{% endcomment %}
+
+<div class="custom-home-page">
+  <div class="hero-section">
+    <div class="container">
+      <h1>Welcome to Global Mart</h1>
+      <p>Quality products · Fast UK Delivery · Great Prices</p>
+      <a href="/collections/all" class="hero-btn">Shop Now</a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Global Mart Homepage",
+  "settings": [
+    {
+      "type": "color",
+      "id": "hero_bg",
+      "label": "Hero Background",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#004d40"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Homepage",
+      "category": "Home"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+.custom-home-page {
+  width: 100%;
+}
+.hero-section {
+  background: {{ section.settings.hero_bg }};
+  padding: 60px 0;
+  text-align: center;
+}
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.hero-section h1 {
+  font-size: 42px;
+  color: {{ section.settings.text_color }};
+  margin-bottom: 16px;
+}
+.hero-section p {
+  font-size: 20px;
+  color: #374151;
+  margin-bottom: 24px;
+}
+.hero-btn {
+  display: inline-block;
+  background: #004d40;
+  color: #fff;
+  padding: 14px 32px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s;
+}
+.hero-btn:hover {
+  opacity: 0.9;
+}
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 28px;
+  }
+}
+</style>
