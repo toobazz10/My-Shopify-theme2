@@ -24,6 +24,12 @@
       "custom-home": {
         "type": "custom-home",
         "blocks": {
+          "featured_product_XxKYBT": {
+            "type": "featured_product",
+            "settings": {
+              "product": "9000pa-wireless-car-vacuum-cleaner-usb-charging-1200mah-portable-cleaning-appliance-mini-wet-and-dry-vacuum-cleaner-household"
+            }
+          },
           "featured_product_CFE4aM": {
             "type": "featured_product",
             "settings": {
@@ -32,6 +38,7 @@
           }
         },
         "block_order": [
+          "featured_product_XxKYBT",
           "featured_product_CFE4aM"
         ],
         "settings": {
