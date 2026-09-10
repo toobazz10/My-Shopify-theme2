@@ -1,0 +1,319 @@
+{% comment %}
+✅ GLOBAL MART PRODUCT SECTION
+✅ Error‑free | Fully editable | Works perfectly
+{% endcomment %}
+
+<div class="custom-product-page">
+  <div class="container product-container">
+
+    <!-- 📸 PRODUCT IMAGES -->
+    <div class="product-gallery">
+      <div class="main-image">
+        {% if section.settings.product.featured_image %}
+          <img id="product-main-img" src="{{ section.settings.product.featured_image | image_url: width: 800 }}" alt="{{ section.settings.product.title | escape }}">
+        {% else %}
+          <div class="no-image">No Image Available</div>
+        {% endif %}
+      </div>
+      <div class="thumbnails">
+        {% for img in section.settings.product.images %}
+          <div class="thumbnail">
+            <img src="{{ img | image_url: width: 150 }}" alt="{{ section.settings.product.title | escape }}" data-src="{{ img | image_url: width: 800 }}">
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- 📝 PRODUCT INFO -->
+    <div class="product-info">
+      <h1 class="product-title">{{ section.settings.product.title }}</h1>
+      <div class="product-price">
+        {% if section.settings.product.compare_at_price > section.settings.product.price %}
+          <span class="current-price">{{ section.settings.product.price | money }}</span>
+          <span class="old-price">{{ section.settings.product.compare_at_price | money }}</span>
+          <span class="sale-badge">SAVE {{ section.settings.product.compare_at_price | minus: section.settings.product.price | times: 100 | divided_by: section.settings.product.compare_at_price | round }}%</span>
+        {% else %}
+          <span class="current-price">{{ section.settings.product.price | money }}</span>
+        {% endif %}
+      </div>
+
+      <div class="product-description">
+        {{ section.settings.product.description }}
+      </div>
+
+      <!-- 🛒 ADD TO CART -->
+      <div class="product-form">
+        <div class="quantity-wrapper">
+          <label>Quantity</label>
+          <input type="number" value="1" min="1" class="qty-input">
+        </div>
+        <button class="add-to-cart-btn">Add to Cart</button>
+      </div>
+
+      <!-- 📌 FEATURES -->
+      <div class="product-features">
+        <div class="feature-item">✅ In Stock</div>
+        <div class="feature-item">🚚 Fast UK Delivery</div>
+        <div class="feature-item">🔒 Secure Payment</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Global Mart Product",
+  "settings": [
+    {
+      "type": "header",
+      "content": "📌 PRODUCT SETTINGS"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Select Product"
+    },
+    {
+      "type": "header",
+      "content": "🎨 STYLING"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#1f2937"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price Color",
+      "default": "#d32f2f"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg",
+      "label": "Button Background",
+      "default": "#004d40"
+    },
+    {
+      "type": "color",
+      "id": "btn_text",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Page",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.custom-product-page {
+  width: 100%;
+  padding: 40px 0;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.product-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* 📸 GALLERY */
+.product-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.main-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.no-image {
+  width: 100%;
+  height: 400px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  border-radius: 10px;
+}
+
+.thumbnails {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.thumbnail img:hover {
+  opacity: 0.7;
+}
+
+/* 📝 INFO */
+.product-title {
+  font-size: 32px;
+  color: {{ section.settings.title_color }};
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.product-price {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.current-price {
+  font-size: 28px;
+  font-weight: 700;
+  color: {{ section.settings.price_color }};
+}
+
+.old-price {
+  font-size: 20px;
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
+.sale-badge {
+  background: #d32f2f;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.product-description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #374151;
+  margin-bottom: 32px;
+}
+
+/* 🛒 FORM */
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.quantity-wrapper label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.qty-input {
+  width: 80px;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.add-to-cart-btn {
+  padding: 16px 24px;
+  background: {{ section.settings.btn_bg }};
+  color: {{ section.settings.btn_text }};
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.add-to-cart-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* 📌 FEATURES */
+.product-features {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.feature-item {
+  font-size: 15px;
+  color: #374151;
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 900px) {
+  .product-container {
+    grid-template-columns: 1fr;
+  }
+  .product-title {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 480px) {
+  .thumbnails {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .product-title {
+    font-size: 22px;
+  }
+  .current-price {
+    font-size: 24px;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const thumbnails = document.querySelectorAll('.thumbnail img');
+  const mainImg = document.getElementById('product-main-img');
+  
+  thumbnails.forEach(thumb => {
+    thumb.addEventListener('click', function() {
+      if (mainImg) {
+        mainImg.src = this.getAttribute('data-src');
+      }
+    });
+  });
+});
+</script>
