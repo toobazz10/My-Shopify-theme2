@@ -1,0 +1,49 @@
+{% comment %}
+✅ Homepage Banner — Fully Editable
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Homepage Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Background Image"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Main Heading",
+      "default": "Flash Sale"
+    },
+    {
+      "type": "text",
+      "id": "subheading_text",
+      "label": "Subheading Text",
+      "default": "Up to 70% OFF — Limited Time Only"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "default": "/collections/all"
+    }
+  ],
+  "presets": [{"name": "Homepage Banner"}]
+}
+{% endschema %}
+
+<section class="banner-section" {% if section.settings.banner_image %}style="background-image: url('{{ section.settings.banner_image | image_url: '1920x600' }}');"{% endif %}>
+  <div class="container banner-content">
+    <h1>{{ section.settings.heading_text | escape }}</h1>
+    <p>{{ section.settings.subheading_text | escape }}</p>
+    <a href="{{ section.settings.button_link | escape }}" class="banner-btn">{{ section.settings.button_text | escape }}</a>
+  </div>
+</section>
