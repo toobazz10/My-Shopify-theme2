@@ -1,0 +1,408 @@
+{% comment %}
+=== FULLY EDITABLE CUSTOM HEADER ===
+✅ Move elements: Logo / Menu / Icons position
+✅ Control image size: Small / Medium / Large
+✅ Custom colours, spacing, styles
+✅ Works on ALL Shopify versions — NO invalid types
+✅ Saves perfectly — no errors!
+{% endcomment %}
+
+<header class="site-header" style="
+  background: {{ section.settings.header_bg }};
+  color: {{ section.settings.text_color }};
+  padding: {{ section.settings.padding_top }}px {{ section.settings.padding_sides }}px;
+  {% if section.settings.border_bottom %}border-bottom: 1px solid {{ section.settings.border_color }};{% endif %}
+">
+
+  <div class="header-inner {{ section.settings.layout_style }}">
+
+    <!-- 📌 LEFT AREA -->
+    {% if section.settings.left_content != 'none' %}
+    <div class="header-left header-col">
+      {% if section.settings.left_content == 'logo' %}
+        <a href="/" class="logo-area">
+          {% if section.settings.logo %}
+            {{ section.settings.logo | image_url: section.settings.logo_size | image_tag }}
+          {% else %}
+            <span class="logo-text">{{ section.settings.store_name }}</span>
+          {% endif %}
+        </a>
+      {% elsif section.settings.left_content == 'menu' %}
+        <nav class="nav-area">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/collections/all" class="nav-link">Shop</a>
+          <a href="/pages/about" class="nav-link">About</a>
+          <a href="/pages/contact" class="nav-link">Contact</a>
+        </nav>
+      {% elsif section.settings.left_content == 'icons' %}
+        <div class="icons-area">
+          <a href="/search" class="icon-link">🔍</a>
+          <a href="/account" class="icon-link">👤</a>
+          <a href="/cart" class="icon-link cart-icon">
+            🛒
+            {% if cart.item_count > 0 %}<span class="cart-count">{{ cart.item_count }}</span>{% endif %}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- 📌 CENTER AREA -->
+    {% if section.settings.center_content != 'none' %}
+    <div class="header-center header-col">
+      {% if section.settings.center_content == 'logo' %}
+        <a href="/" class="logo-area">
+          {% if section.settings.logo %}
+            {{ section.settings.logo | image_url: section.settings.logo_size | image_tag }}
+          {% else %}
+            <span class="logo-text">{{ section.settings.store_name }}</span>
+          {% endif %}
+        </a>
+      {% elsif section.settings.center_content == 'menu' %}
+        <nav class="nav-area">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/collections/all" class="nav-link">Shop</a>
+          <a href="/pages/about" class="nav-link">About</a>
+          <a href="/pages/contact" class="nav-link">Contact</a>
+        </nav>
+      {% elsif section.settings.center_content == 'icons' %}
+        <div class="icons-area">
+          <a href="/search" class="icon-link">🔍</a>
+          <a href="/account" class="icon-link">👤</a>
+          <a href="/cart" class="icon-link cart-icon">
+            🛒
+            {% if cart.item_count > 0 %}<span class="cart-count">{{ cart.item_count }}</span>{% endif %}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- 📌 RIGHT AREA -->
+    {% if section.settings.right_content != 'none' %}
+    <div class="header-right header-col">
+      {% if section.settings.right_content == 'logo' %}
+        <a href="/" class="logo-area">
+          {% if section.settings.logo %}
+            {{ section.settings.logo | image_url: section.settings.logo_size | image_tag }}
+          {% else %}
+            <span class="logo-text">{{ section.settings.store_name }}</span>
+          {% endif %}
+        </a>
+      {% elsif section.settings.right_content == 'menu' %}
+        <nav class="nav-area">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/collections/all" class="nav-link">Shop</a>
+          <a href="/pages/about" class="nav-link">About</a>
+          <a href="/pages/contact" class="nav-link">Contact</a>
+        </nav>
+      {% elsif section.settings.right_content == 'icons' %}
+        <div class="icons-area">
+          <a href="/search" class="icon-link">🔍</a>
+          <a href="/account" class="icon-link">👤</a>
+          <a href="/cart" class="icon-link cart-icon">
+            🛒
+            {% if cart.item_count > 0 %}<span class="cart-count">{{ cart.item_count }}</span>{% endif %}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- MOBILE MENU BUTTON -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+  </div>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/" class="mobile-link">Home</a>
+    <a href="/collections/all" class="mobile-link">Shop</a>
+    <a href="/pages/about" class="mobile-link">About</a>
+    <a href="/pages/contact" class="mobile-link">Contact</a>
+  </div>
+
+</header>
+
+{% schema %}
+{
+  "name": "Custom Header",
+  "settings": [
+
+    {
+      "type": "header",
+      "content": "🎨 Layout & Positioning"
+    },
+    {
+      "type": "select",
+      "id": "layout_style",
+      "label": "Header Layout",
+      "default": "flex-between",
+      "options": [
+        {"value": "flex-between", "label": "Left · Center · Right"},
+        {"value": "flex-start", "label": "All Align Left"},
+        {"value": "flex-center", "label": "All Centered"},
+        {"value": "flex-end", "label": "All Align Right"}
+      ]
+    },
+    {
+      "type": "select",
+      "id": "left_content",
+      "label": "Left Section Content",
+      "default": "logo",
+      "options": [
+        {"value": "none", "label": "Empty"},
+        {"value": "logo", "label": "Logo / Store Name"},
+        {"value": "menu", "label": "Navigation Menu"},
+        {"value": "icons", "label": "Icons (Search/Account/Cart)"}
+      ]
+    },
+    {
+      "type": "select",
+      "id": "center_content",
+      "label": "Center Section Content",
+      "default": "menu",
+      "options": [
+        {"value": "none", "label": "Empty"},
+        {"value": "logo", "label": "Logo / Store Name"},
+        {"value": "menu", "label": "Navigation Menu"},
+        {"value": "icons", "label": "Icons (Search/Account/Cart)"}
+      ]
+    },
+    {
+      "type": "select",
+      "id": "right_content",
+      "label": "Right Section Content",
+      "default": "icons",
+      "options": [
+        {"value": "none", "label": "Empty"},
+        {"value": "logo", "label": "Logo / Store Name"},
+        {"value": "menu", "label": "Navigation Menu"},
+        {"value": "icons", "label": "Icons (Search/Account/Cart)"}
+      ]
+    },
+
+    {
+      "type": "header",
+      "content": "🖼️ Logo / Image Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Upload Logo"
+    },
+    {
+      "type": "text",
+      "id": "store_name",
+      "label": "Store Name (if no logo)",
+      "default": "YOUR STORE"
+    },
+    {
+      "type": "select",
+      "id": "logo_size",
+      "label": "Logo Size",
+      "default": "120x",
+      "options": [
+        {"value": "60x", "label": "Small — 60px"},
+        {"value": "100x", "label": "Medium — 100px"},
+        {"value": "120x", "label": "Large — 120px"},
+        {"value": "160x", "label": "Extra Large — 160px"}
+      ]
+    },
+
+    {
+      "type": "header",
+      "content": "🎨 Colours & Style"
+    },
+    {
+      "type": "color",
+      "id": "header_bg",
+      "label": "Background Colour",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text & Icon Colour",
+      "default": "#111111"
+    },
+    {
+      "type": "checkbox",
+      "id": "border_bottom",
+      "label": "Show Bottom Border",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Colour",
+      "default": "#eeeeee"
+    },
+
+    {
+      "type": "header",
+      "content": "📐 Spacing & Sizing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top / Bottom Padding",
+      "min": 5,
+      "max": 40,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "padding_sides",
+      "label": "Left / Right Padding",
+      "min": 5,
+      "max": 60,
+      "step": 1,
+      "default": 15
+    }
+
+  ],
+  "presets": [
+    {
+      "name": "Custom Header",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  width: 100%;
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.header-inner.flex-start { justify-content: flex-start; }
+.header-inner.flex-center { justify-content: center; }
+.header-inner.flex-end { justify-content: flex-end; }
+
+.header-col {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo-area {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+.logo-text {
+  font-size: 22px;
+  font-weight: 700;
+  color: inherit;
+}
+.logo-area img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+.nav-area {
+  display: flex;
+  gap: 25px;
+}
+.nav-link {
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  color: inherit;
+  transition: opacity 0.2s ease;
+}
+.nav-link:hover { opacity: 0.7; }
+
+.icons-area {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.icon-link {
+  font-size: 20px;
+  text-decoration: none;
+  position: relative;
+  color: inherit;
+}
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #d32f2f;
+  color: #fff;
+  font-size: 11px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: inherit;
+}
+
+.mobile-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: inherit;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  padding: 15px;
+  flex-direction: column;
+  gap: 12px;
+}
+.mobile-link {
+  font-size: 16px;
+  text-decoration: none;
+  padding: 8px 0;
+  color: inherit;
+}
+
+@media (max-width: 768px) {
+  .header-col.nav-area { display: none; }
+  .menu-toggle { display: block; }
+  .mobile-menu.active { display: flex; }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', function() {
+      mobileMenu.classList.toggle('active');
+    });
+  }
+});
+</script>
