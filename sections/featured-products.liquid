@@ -1,6 +1,7 @@
 {% comment %}
-✅ Featured Products — Smaller Cards • No Filters • Fully Editable
-✅ Schema FIXED: number default has NO quotes — Shopify valid!
+✅ FEATURED PRODUCTS — FINAL • SCHEMA FIXED
+✅ "product_limit" default = 16 — NO QUOTES = VALID
+✅ Matches your preview: clean cards, no filters
 {% endcomment %}
 
 {% schema %}
@@ -16,14 +17,27 @@
     {
       "type": "collection",
       "id": "featured_collection",
-      "label": "Select Collection to Display"
+      "label": "Select Collection to Show",
+      "info": "Leave empty to show all products"
     },
     {
       "type": "number",
       "id": "product_limit",
       "label": "Number of Products to Show",
       "default": 16,
-      "info": "Change anytime — no code needed"
+      "info": "Choose between 4–24 products"
+    },
+    {
+      "type": "select",
+      "id": "grid_style",
+      "label": "Grid Layout Style",
+      "default": "four",
+      "options": [
+        {"value": "three", "label": "3 per row (Large cards)"},
+        {"value": "four", "label": "4 per row (Standard — as preview)"},
+        {"value": "five", "label": "5 per row (Compact)"},
+        {"value": "six", "label": "6 per row (Smallest)"}
+      ]
     }
   ],
   "presets": [{"name": "Featured Products"}]
@@ -34,7 +48,19 @@
   <div class="container">
     <h2>{{ section.settings.section_title | escape }}</h2>
 
-    <div class="product-grid-small">
+    {% if section.settings.grid_style == "three" %}
+      {% assign cols = "three-col" %}
+    {% elsif section.settings.grid_style == "four" %}
+      {% assign cols = "four-col" %}
+    {% elsif section.settings.grid_style == "five" %}
+      {% assign cols = "five-col" %}
+    {% elsif section.settings.grid_style == "six" %}
+      {% assign cols = "six-col" %}
+    {% else %}
+      {% assign cols = "four-col" %}
+    {% endif %}
+
+    <div class="product-grid-small {{ cols }}">
       {% if section.settings.featured_collection %}
         {% assign products = collections[section.settings.featured_collection].products | limit: section.settings.product_limit %}
       {% else %}
@@ -44,8 +70,8 @@
       {% for product in products %}
         <div class="product-card-compact">
           <a href="{{ product.url | escape }}">
-            <img src="{{ product.featured_image | image_url: '300x300' }}" alt="{{ product.title | escape }}" loading="lazy">
-            <h3>{{ product.title | escape | truncate: 22 }}</h3>
+            <img src="{{ product.featured_image | image_url: '350x350' }}" alt="{{ product.title | escape }}" loading="lazy">
+            <h3>{{ product.title | escape | truncate: 24 }}</h3>
             <p class="price">{{ product.price | money }}</p>
           </a>
         </div>
