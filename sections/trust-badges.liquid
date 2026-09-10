@@ -1,0 +1,23 @@
+{% comment %}
+✅ Trust Badges — Editable Text
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Trust Badges",
+  "settings": [
+    {"type": "text", "id": "badge1", "label": "Badge 1", "default": "🔒 Secure Checkout"},
+    {"type": "text", "id": "badge2", "label": "Badge 2", "default": "🚚 Free Shipping"},
+    {"type": "text", "id": "badge3", "label": "Badge 3", "default": "👤 Guest Checkout"}
+  ],
+  "presets": [{"name": "Trust Badges"}]
+}
+{% endschema %}
+
+<section class="trust-section">
+  <div class="container trust-grid">
+    <div class="trust-item">{{ section.settings.badge1 | escape }}</div>
+    <div class="trust-item">{{ section.settings.badge2 | escape }}</div>
+    <div class="trust-item">{{ section.settings.badge3 | escape }}</div>
+  </div>
+</section>
