@@ -1,0 +1,55 @@
+{% comment %}
+✅ Featured Products — Smaller Cards • No Filters • Fully Editable
+✅ Schema FIXED: number default has NO quotes — Shopify valid!
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Featured Products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Featured Products"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Select Collection to Display"
+    },
+    {
+      "type": "number",
+      "id": "product_limit",
+      "label": "Number of Products to Show",
+      "default": 16,
+      "info": "Change anytime — no code needed"
+    }
+  ],
+  "presets": [{"name": "Featured Products"}]
+}
+{% endschema %}
+
+<section class="featured-section">
+  <div class="container">
+    <h2>{{ section.settings.section_title | escape }}</h2>
+
+    <div class="product-grid-small">
+      {% if section.settings.featured_collection %}
+        {% assign products = collections[section.settings.featured_collection].products | limit: section.settings.product_limit %}
+      {% else %}
+        {% assign products = collections.all.products | limit: section.settings.product_limit %}
+      {% endif %}
+
+      {% for product in products %}
+        <div class="product-card-compact">
+          <a href="{{ product.url | escape }}">
+            <img src="{{ product.featured_image | image_url: '300x300' }}" alt="{{ product.title | escape }}" loading="lazy">
+            <h3>{{ product.title | escape | truncate: 22 }}</h3>
+            <p class="price">{{ product.price | money }}</p>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
