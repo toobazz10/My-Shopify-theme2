@@ -1,0 +1,20 @@
+{% comment %}
+✅ Footer — Store Name: Global Mart • Editable
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Footer",
+  "tag": "footer",
+  "class": "site-footer",
+  "limit": 1,
+  "settings": [
+    {"type": "text", "id": "copyright", "label": "Copyright Text", "default": "© 2026 Global Mart. All rights reserved."}
+  ],
+  "presets": [{"name": "Footer"}]
+}
+{% endschema %}
+
+<div class="container">
+  <p class="copyright">{{ section.settings.copyright | escape }}</p>
+</div>
