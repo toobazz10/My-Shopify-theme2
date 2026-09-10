@@ -1,5 +1,5 @@
 {% comment %}
-✅ Trust Badges — Editable Text
+✅ TRUST BADGES — EXACTLY AS PREVIEWED
 {% endcomment %}
 
 {% schema %}
@@ -7,8 +7,9 @@
   "name": "Trust Badges",
   "settings": [
     {"type": "text", "id": "badge1", "label": "Badge 1", "default": "🔒 Secure Checkout"},
-    {"type": "text", "id": "badge2", "label": "Badge 2", "default": "🚚 Free Shipping"},
-    {"type": "text", "id": "badge3", "label": "Badge 3", "default": "👤 Guest Checkout"}
+    {"type": "text", "id": "badge2", "label": "Badge 2", "default": "🚚 Free Shipping Worldwide"},
+    {"type": "text", "id": "badge3", "label": "Badge 3", "default": "✅ 100% Authentic Products"},
+    {"type": "text", "id": "badge4", "label": "Badge 4", "default": "💬 24/7 Support"}
   ],
   "presets": [{"name": "Trust Badges"}]
 }
@@ -19,5 +20,6 @@
     <div class="trust-item">{{ section.settings.badge1 | escape }}</div>
     <div class="trust-item">{{ section.settings.badge2 | escape }}</div>
     <div class="trust-item">{{ section.settings.badge3 | escape }}</div>
+    <div class="trust-item">{{ section.settings.badge4 | escape }}</div>
   </div>
 </section>
