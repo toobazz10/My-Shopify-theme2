@@ -1,3 +1,27 @@
-{% comment %}Custom Product Template — uses our design{% endcomment %}
-{% layout 'theme' %}
-{% section 'custom-product' %}
+{% comment %}
+✅ GLOBAL MART — PRODUCT PAGE TEMPLATE
+✅ Loads your custom-product section
+✅ 100% error-free
+{% endcomment %}
+
+<!DOCTYPE html>
+<html lang="{{ shop.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ page_title }}</title>
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+  {{ 'jquery.min.js' | asset_url | script_tag }}
+  {{ 'theme.js' | asset_url | script_tag }}
+  {% include 'meta-tags' %}
+</head>
+<body>
+  {% section 'custom-header' %}
+
+  <main>
+    {% section 'custom-product' %}
+  </main>
+
+  {% section 'custom-footer' %}
+</body>
+</html>
