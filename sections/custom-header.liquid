@@ -1,73 +1,128 @@
 {% comment %}
-✅ GLOBAL MART HEADER — NO “YOUR STORE” ANYMORE
-✅ 100% correct, no errors
+  HEADER SECTION — Mega Menu + Search + Account/Login
+  Fully Shopify-compatible • No syntax errors • All editable via Customizer
 {% endcomment %}
-
-<header class="gm-header">
-  <div class="container">
-    <div class="header-inner">
-      <a href="/" class="brand-logo"><h1>Global Mart</h1></a>
-      <nav class="desktop-nav">
-        <a href="/" class="nav-link">Home</a>
-        <a href="/collections/all" class="nav-link">Shop</a>
-        <a href="/pages/about" class="nav-link">About</a>
-        <a href="/pages/contact" class="nav-link">Contact</a>
-      </nav>
-      <div class="header-icons">
-        <a href="/search" class="icon-link">🔍</a>
-        <a href="/account" class="icon-link">👤</a>
-        <a href="/cart" class="icon-link">🛒</a>
-        <button class="menu-toggle" id="mobileMenuBtn">☰</button>
-      </div>
-    </div>
-  </div>
-  <div class="mobile-nav" id="mobileMenu">
-    <a href="/" class="nav-link">Home</a>
-    <a href="/collections/all" class="nav-link">Shop</a>
-    <a href="/pages/about" class="nav-link">About</a>
-    <a href="/pages/contact" class="nav-link">Contact</a>
-  </div>
-</header>
 
 {% schema %}
 {
-  "name": "Global Mart Header",
+  "name": "Header",
+  "tag": "header",
+  "class": "site-header",
+  "limit": 1,
   "settings": [
     {
-      "type": "color",
-      "id": "header_bg",
-      "label": "Header Background",
-      "default": "#ffffff"
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text",
+      "default": "Siench"
     },
     {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#004d40"
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "Main Menu (for Mega Menu)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show Search Bar",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Show Account / Login Links",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header"
     }
   ]
 }
 {% endschema %}
 
-<style>
-.gm-header{background:{{section.settings.header_bg}};color:{{section.settings.text_color}};padding:16px 0;border-bottom:1px solid #eee;position:relative;z-index:100}
-.container{max-width:1200px;width:100%;margin:0 auto;padding:0 16px}
-.header-inner{display:flex;align-items:center;justify-content:space-between}
-.brand-logo h1{font-size:24px;font-weight:800;color:{{section.settings.text_color}};margin:0;text-decoration:none}
-.desktop-nav{display:flex;gap:32px}
-.nav-link{color:{{section.settings.text_color}};text-decoration:none;font-weight:500;transition:.2s}
-.nav-link:hover{color:#00796b}
-.header-icons{display:flex;align-items:center;gap:20px}
-.icon-link{font-size:20px;color:{{section.settings.text_color}};text-decoration:none}
-.menu-toggle{display:none;background:none;border:none;font-size:24px;cursor:pointer;color:{{section.settings.text_color}}}
-.mobile-nav{display:none;flex-direction:column;background:{{section.settings.header_bg}};position:absolute;top:100%;left:0;right:0;padding:16px;box-shadow:0 4px 8px rgba(0,0,0,.1)}
-.mobile-nav.active{display:flex}
-@media (max-width:768px){.desktop-nav{display:none}.menu-toggle{display:block}}
-</style>
+<div class="container header-wrapper">
 
-<script>
-document.addEventListener('DOMContentLoaded',()=>{
-  const b=document.getElementById('mobileMenuBtn'),m=document.getElementById('mobileMenu');
-  if(b&&m)b.addEventListener('click',()=>m.classList.toggle('active'))
-})
-</script>
+  <!-- LOGO -->
+  <a href="{{ routes.root_url }}" class="site-logo" aria-label="{{ shop.name | escape }}">
+    {{ section.settings.logo_text | escape }}
+  </a>
+
+  <!-- MEGA MENU NAVIGATION -->
+  <nav class="main-nav" role="navigation" aria-label="Main navigation">
+    {% assign menu_handle = section.settings.main_menu | default: 'main-menu' %}
+    {% assign main_menu = linklists[menu_handle] %}
+
+    {% if main_menu.links.size > 0 %}
+      <ul class="menu-list">
+        {% for link in main_menu.links %}
+          <li class="menu-item{% if link.links.size > 0 %} has-mega-menu{% endif %}">
+            <a href="{{ link.url | escape }}"
+               class="menu-link{% if link.current %} active{% endif %}"
+               {% if link.current %} aria-current="page"{% endif %}>
+              {{ link.title | escape }}
+            </a>
+
+            {% comment %} MEGA MENU DROPDOWN {% endcomment %}
+            {% if link.links.size > 0 %}
+              <div class="mega-menu">
+                <ul class="mega-menu-grid">
+                  {% for sublink in link.links %}
+                    <li class="mega-col">
+                      <a href="{{ sublink.url | escape }}" class="mega-link">
+                        {{ sublink.title | escape }}
+                      </a>
+                      {% if sublink.links.size > 0 %}
+                        <ul class="mega-sublinks">
+                          {% for child in sublink.links %}
+                            <li>
+                              <a href="{{ child.url | escape }}" class="mega-sub-link">
+                                {{ child.title | escape }}
+                              </a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </nav>
+
+  <!-- SEARCH BAR — ✅ FIXED: Correct Shopify search action URL -->
+  {% if section.settings.show_search %}
+    <div class="search-container">
+      <form action="{{ routes.search_url }}" method="get" class="search-form" role="search">
+        <input type="text"
+               name="q"
+               placeholder="Search for products..."
+               class="search-input"
+               autocomplete="off"
+               aria-label="Search">
+        <button type="submit" class="search-btn" aria-label="Submit search">
+          🔍
+        </button>
+      </form>
+    </div>
+  {% endif %}
+
+  <!-- ACCOUNT / LOGIN — ✅ FIXED: Correct Shopify route paths -->
+  {% if section.settings.show_account %}
+    <div class="account-links">
+      {% if customer %}
+        <a href="{{ routes.account_url }}" class="account-link">My Account</a>
+        <a href="{{ routes.logout_url }}" class="account-link">Logout</a>
+      {% else %}
+        <a href="{{ routes.login_url }}" class="account-link">Login</a>
+        <a href="{{ routes.register_url }}" class="account-link">Register</a>
+      {% endif %}
+    </div>
+  {% endif %}
+
+</div>
